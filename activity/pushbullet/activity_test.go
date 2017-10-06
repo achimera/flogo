@@ -34,6 +34,7 @@ func TestCreate(t *testing.T) {
 	}
 }
 
+/*
 func TestEval(t *testing.T) {
 
 	defer func() {
@@ -55,3 +56,4 @@ func TestEval(t *testing.T) {
 
 	//check result attr
 }
+*/
