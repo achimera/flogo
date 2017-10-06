@@ -4,10 +4,12 @@
   "type": "Pushbullet Notification Activity",
   "description": "Simple activity to send a note to a devices across the Pushbullet Service",
   "author": "Alessandro Chimera <achimera@tibco.com>",
+  "homepage": "https://github.com/achimera/flogo/tree/master/activity/pushbullet",
   "inputs":[
     {
       "name": "accToken",
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     {
       "name": "message",
