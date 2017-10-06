@@ -2,13 +2,13 @@ package pushbullet
 
 import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
-	"github.com/op/go-logging"
+	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/mitsuse/pushbullet-go"
 	"github.com/mitsuse/pushbullet-go/requests" 
 )
 
 // log is the default package logger
-var log = logging.MustGetLogger("activity-pushbullet")
+var log = logger.GetLogger("activity-pushbullet")
 
 const (
 	ivAccToken = "accToken"
