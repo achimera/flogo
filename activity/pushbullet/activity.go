@@ -4,17 +4,17 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/mitsuse/pushbullet-go"
-	"github.com/mitsuse/pushbullet-go/requests" 
+	"github.com/mitsuse/pushbullet-go/requests"
 )
 
 // log is the default package logger
 var log = logger.GetLogger("activity-pushbullet")
 
 const (
-	ivAccToken = "accToken"
-	ivMessage = "message"
+	ivAccToken     = "accToken"
+	ivMessage      = "message"
 	ivMessageTitle = "messageTitle"
-	ovStatus = "status"
+	ovStatus       = "status"
 )
 
 // PushbulletActivity is a stub for your Activity implementation
@@ -32,9 +32,8 @@ func (a *PushbulletActivity) Metadata() *activity.Metadata {
 	return a.metadata
 }
 
-
 // Eval implements activity.Activity.Eval
-func (a *PushbulletActivity) Eval(context activity.Context) (done bool, err error)  {
+func (a *PushbulletActivity) Eval(context activity.Context) (done bool, err error) {
 
 	accToken := context.GetInput(ivAccToken)
 	message := context.GetInput(ivMessage)
@@ -43,7 +42,7 @@ func (a *PushbulletActivity) Eval(context activity.Context) (done bool, err erro
 	// Check if mandatory credentials are set in config
 	if accToken == nil {
 		log.Error("Missing Pushbullet Access Token")
-		err := activity.NewError("Access Token config not specified","",nil)
+		err := activity.NewError("Access Token config not specified", "", nil)
 		return false, err
 	}
 
@@ -69,8 +68,7 @@ func (a *PushbulletActivity) Eval(context activity.Context) (done bool, err erro
 		return true, nil
 	}
 
-
 	context.SetOutput(ovStatus, "OK")
-	
+
 	return true, nil
 }
