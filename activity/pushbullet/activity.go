@@ -22,10 +22,9 @@ type PushbulletActivity struct {
 	metadata *activity.Metadata
 }
 
-// init create & register activity
-func init() {
-	md := activity.NewMetadata(jsonMetadata)
-	activity.Register(&PushbulletActivity{metadata: md})
+// NewActivity creates a new activity
+func NewActivity(metadata *activity.Metadata) activity.Activity {
+	return &PushbulletActivity{metadata: metadata}
 }
 
 // Metadata implements activity.Activity.Metadata
