@@ -13,7 +13,7 @@ var log = logger.GetLogger("activity-pushbulletnote")
 const (
 	ivAccessToken     	= "accessToken"
 	ivNoteTitle 		= "noteTitle"
-	ivNote     			= "note"
+	ivNote				= "note"
 	ivEmailTarget 		= "emailTarget"
 	ivChannelTarget		= "channelTarget"
 	ovStatus       		= "status"
