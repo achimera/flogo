@@ -11,12 +11,12 @@ import (
 var log = logger.GetLogger("activity-pushbulletnote")
 
 const (
-	ivAccessToken     	= "accessToken"
-	ivNoteTitle 		= "noteTitle"
+	ivAccessToken		= "accessToken"
+	ivNoteTitle			= "noteTitle"
 	ivNote				= "note"
-	ivEmailTarget 		= "emailTarget"
+	ivEmailTarget		= "emailTarget"
 	ivChannelTarget		= "channelTarget"
-	ovStatus       		= "status"
+	ovStatus			= "status"
 )
 
 // PushbulletNoteActivity is a stub for your Activity implementation
@@ -53,7 +53,7 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 	// Check if there is a note to send
 	if note == nil {
 		log.Error("No Pushbullet note to send")
-		context.SetOutput(ovStatus, "NO_NOTE")
+		context.SetOutput(ovStatus, "NO_NOTE_ERR")
 		return true, nil
 	}
 
@@ -73,6 +73,12 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 	if channelTarget != nil {
 		n.ChannelTag = channelTarget.(string)
 		log.Info("Send Pushbullet note to channel %v", channelTarget)
+	}
+
+	if emailTarget != nil && channelTarget != nil {
+		log.Error("Can't send note to email and channel. Please choose only one target")
+		context.SetOutput(ovStatus, "TOO_MANY_TARGETS_ERR")
+		return true, nil
 	}
 
 	// Send the note via Pushbullet.

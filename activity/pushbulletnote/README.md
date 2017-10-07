@@ -55,15 +55,16 @@ Inputs and Outputs:
 | accessToken  | The Pushbullet access token allocated for your app |
 | note      	 | The note to send |
 | noteTitle | The title of the note |
-| emailTarget    	| The email address where to send the note |
-| channelTarget    	| The channel # where to send the note |
+| emailTarget    	| The email address where to send the note. Only one target is allowed |
+| channelTarget    	| The channel name where to send the note. Only one target is allowed |
 
+If emailTarget and channelTarget are empty, then the note is send to all devices. 
 
 In the 'status' output, you may get the following values:
 - 'OK' : the note was correctly sent
 - 'PUSH_ERR' : an error on sending the note via Pushbullet
 - 'CONNECT_ERR' : if there was an error connecting to Pushbullet
-- 'NO_NOTE' : if the input 'note' field is empty
+- 'NO_NOTE_ERR' : if the input 'note' field is empty
 
 ## Configuration Example
 
