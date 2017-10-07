@@ -65,6 +65,8 @@ In the 'status' output, you may get the following values:
 - 'PUSH_ERR' : an error on sending the note via Pushbullet
 - 'CONNECT_ERR' : if there was an error connecting to Pushbullet
 - 'NO_NOTE_ERR' : if the input 'note' field is empty
+- 'TOO_MANY_TARGETS_ERR' : if multiple targets are specified
+
 
 ## Configuration Example
 
