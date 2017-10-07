@@ -51,7 +51,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput(ivLinkTitle, "Flogo")
 	tc.SetInput(ivLinkMsg, "Flogo Site")
 	tc.SetInput(ivLinUrl, "http://www.flogo.io")
-	
+
 	//tc.SetInput(ivEmailTarget, "[YOUR EMAIL TARGET]")
 	//tc.SetInput(ivChannelTarget, "[YOUR CHANNEL TARGET]")
 

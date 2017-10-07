@@ -11,13 +11,13 @@ import (
 var log = logger.GetLogger("activity-pushbulletlink")
 
 const (
-	ivAccessToken		= "accessToken"
-	ivLinkTitle			= "linkTitle"
-	ivLinkMsg			= "linkMsg"
-	ivLinkUrl			= "linkUrl"
-	ivEmailTarget		= "emailTarget"
-	ivChannelTarget		= "channelTarget"
-	ovStatus			= "status"
+	ivAccessToken   = "accessToken"
+	ivLinkTitle     = "linkTitle"
+	ivLinkMsg       = "linkMsg"
+	ivLinkUrl       = "linkUrl"
+	ivEmailTarget   = "emailTarget"
+	ivChannelTarget = "channelTarget"
+	ovStatus        = "status"
 )
 
 // PushbulletLinkActivity is a stub for your Activity implementation
@@ -37,13 +37,13 @@ func (a *PushbulletLinkActivity) Metadata() *activity.Metadata {
 
 // Eval implements activity.Activity.Eval
 func (a *PushbulletLinkActivity) Eval(context activity.Context) (done bool, err error) {
-	accessToken 	:= context.GetInput(ivAccessToken)
-	linkTitle 		:= context.GetInput(ivLinkTitle)
-	linkMsg 		:= context.GetInput(ivLinkMsg)
-	linkUrl 		:= context.GetInput(ivLinkUrl)
+	accessToken := context.GetInput(ivAccessToken)
+	linkTitle := context.GetInput(ivLinkTitle)
+	linkMsg := context.GetInput(ivLinkMsg)
+	linkUrl := context.GetInput(ivLinkUrl)
 
-	emailTarget 	:= context.GetInput(ivEmailTarget)
-	channelTarget 	:= context.GetInput(ivChannelTarget)
+	emailTarget := context.GetInput(ivEmailTarget)
+	channelTarget := context.GetInput(ivChannelTarget)
 
 	// Check if mandatory credentials are set in config
 	if accessToken == nil {
