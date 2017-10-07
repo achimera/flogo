@@ -64,7 +64,7 @@ Inputs and Outputs:
 | emailTarget    	| The email address where to send the link. Only one target is allowed |
 | channelTarget    	| The channel name where to send the link. Only one target is allowed |
 
-If emailTarget and channelTarget are empty, then the link is send to all devices. 
+If emailTarget and channelTarget are empty, then the link is sent to all devices. 
 
 In the 'status' output, you may get the following values:
 - 'OK' : the link was correctly sent

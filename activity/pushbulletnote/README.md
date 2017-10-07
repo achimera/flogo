@@ -1,6 +1,6 @@
 # pushbulletnote
 This activity provides your flogo application the ability to send a notification via Pushbullet.
-If no email and channel target is specified, then the note is send to all devices. 
+If no email and channel target is specified, then the note is sent to all devices. 
 
 
 ## Installation
@@ -58,7 +58,7 @@ Inputs and Outputs:
 | emailTarget    	| The email address where to send the note. Only one target is allowed |
 | channelTarget    	| The channel name where to send the note. Only one target is allowed |
 
-If emailTarget and channelTarget are empty, then the note is send to all devices. 
+If emailTarget and channelTarget are empty, then the note is sent to all devices. 
 
 In the 'status' output, you may get the following values:
 - 'OK' : the note was correctly sent
