@@ -1,0 +1,48 @@
+{
+  "name": "pushbulletlink",
+  "type": "flogo:activity",
+  "ref": "github.com/achimera/flogo/activity/pushbulletlink", 
+  "version": "0.0.1",
+  "title": "Pushbullet Link Notification Activity",
+  "description": "Simple activity to send a link to a target (All, Email, Channel) across the Pushbullet Service",
+  "author": "Alessandro Chimera <achimera@tibco.com>",
+  "homepage": "https://github.com/achimera/flogo/tree/master/activity/pushbulletlink",
+  "inputs":[
+    {
+      "name": "accessToken",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "linkTitle",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "linkMsg",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "linkUrl",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "emailTarget",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "channelTarget",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "outputs": [
+  	{
+      "name": "status",
+      "type": "string"
+    }
+  ]
+}
