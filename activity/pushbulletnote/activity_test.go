@@ -50,7 +50,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput(ivAccessToken, "[YOUR ACCESS TOKEN HERE]")
 	tc.SetInput(ivNoteTitle, "Flogo Note")
 	tc.SetInput(ivNote, "Hi Flogo")
-	
+
 	//tc.SetInput(ivEmailTarget, "[YOUR EMAIL TARGET]")
 	//tc.SetInput(ivChannelTarget, "[YOUR CHANNEL TARGET]")
 

@@ -11,12 +11,12 @@ import (
 var log = logger.GetLogger("activity-pushbulletnote")
 
 const (
-	ivAccessToken		= "accessToken"
-	ivNoteTitle			= "noteTitle"
-	ivNote				= "note"
-	ivEmailTarget		= "emailTarget"
-	ivChannelTarget		= "channelTarget"
-	ovStatus			= "status"
+	ivAccessToken   = "accessToken"
+	ivNoteTitle     = "noteTitle"
+	ivNote          = "note"
+	ivEmailTarget   = "emailTarget"
+	ivChannelTarget = "channelTarget"
+	ovStatus        = "status"
 )
 
 // PushbulletNoteActivity is a stub for your Activity implementation
@@ -36,12 +36,12 @@ func (a *PushbulletNoteActivity) Metadata() *activity.Metadata {
 
 // Eval implements activity.Activity.Eval
 func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err error) {
-	accessToken 	:= context.GetInput(ivAccessToken)
-	note 			:= context.GetInput(ivNote)
-	noteTitle 		:= context.GetInput(ivNoteTitle)
+	accessToken := context.GetInput(ivAccessToken)
+	note := context.GetInput(ivNote)
+	noteTitle := context.GetInput(ivNoteTitle)
 
-	emailTarget 	:= context.GetInput(ivEmailTarget)
-	channelTarget 	:= context.GetInput(ivChannelTarget)
+	emailTarget := context.GetInput(ivEmailTarget)
+	channelTarget := context.GetInput(ivChannelTarget)
 
 	// Check if mandatory credentials are set in config
 	if accessToken == nil {
