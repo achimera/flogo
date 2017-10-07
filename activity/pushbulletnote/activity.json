@@ -15,18 +15,23 @@
     },
     {
       "name": "note",
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     {
       "name": "noteTitle",
-      "type": "string"
-    },{
+      "type": "string",
+      "required": true
+    },
+    {
       "name": "emailTarget",
-      "type": "string"
+      "type": "string",
+      "required": false
     },
     {
       "name": "channelTarget",
-      "type": "string"
+      "type": "string",
+      "required": false
     }
   ],
   "outputs": [

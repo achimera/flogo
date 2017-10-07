@@ -1,4 +1,4 @@
-package pushbullet
+package pushbulletnote
 
 import (
 	"io/ioutil"
@@ -47,9 +47,13 @@ func TestEval(t *testing.T) {
 	act := NewActivity(getActivityMetadata())
 	tc := test.NewTestActivityContext(getActivityMetadata())
 
-	tc.SetInput(ivAccToken, "[YOUR ACCESS TOKEN HERE])
-	tc.SetInput(ivMessageTitle, "Flogo")
-	tc.SetInput(ivMessage, "Go Flogo")
+	tc.SetInput(ivAccessToken, "[YOUR ACCESS TOKEN HERE]")
+	tc.SetInput(ivNoteTitle, "Flogo Note")
+	tc.SetInput(ivNote, "Hi Flogo")
+	
+	//tc.SetInput(ivEmailTarget, "[YOUR EMAIL TARGET]")
+	//tc.SetInput(ivChannelTarget, "[YOUR CHANNEL TARGET]")
+
 	//setup attrs
 
 	act.Eval(tc)

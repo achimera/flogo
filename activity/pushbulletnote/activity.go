@@ -12,7 +12,7 @@ var log = logger.GetLogger("activity-pushbulletnote")
 
 const (
 	ivAccessToken     	= "accessToken"
-	ivMNoteTitle 		= "noteTitle"
+	ivNoteTitle 		= "noteTitle"
 	ivNote     			= "note"
 	ivEmailTarget 		= "emailTarget"
 	ivChannelTarget		= "channelTarget"
@@ -46,13 +46,13 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 	// Check if mandatory credentials are set in config
 	if accessToken == nil {
 		log.Error("Missing Pushbullet Access Token")
-		err := activity.NewError("Access Token config not specified", "", nil)
+		err := activity.NewError("Pushbullet Access Token config not specified", "", nil)
 		return false, err
 	}
 
 	// Check if there is a note to send
 	if note == nil {
-		log.Error("No Note to Send")
+		log.Error("No Pushbullet note to send")
 		context.SetOutput(ovStatus, "NO_NOTE")
 		return true, nil
 	}
@@ -67,12 +67,12 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 
 	if emailTarget != nil {
 		n.Email = emailTarget.(string)
-		log.Info("Send Pushbullet note to email " + emailTarget)
+		log.Info("Send Pushbullet note to email %v", emailTarget)
 	}
 
 	if channelTarget != nil {
 		n.ChannelTag = channelTarget.(string)
-		log.Info("Send Pushbullet note to channel " + channelTarget)
+		log.Info("Send Pushbullet note to channel %v", channelTarget)
 	}
 
 	// Send the note via Pushbullet.
