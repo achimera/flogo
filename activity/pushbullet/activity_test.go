@@ -47,7 +47,7 @@ func TestEval(t *testing.T) {
 	act := NewActivity(getActivityMetadata())
 	tc := test.NewTestActivityContext(getActivityMetadata())
 
-	tc.SetInput(ivAccToken, "o.AYA7hnpZIIoiPlkr7j8clD0OEaLHcF2u")
+	tc.SetInput(ivAccToken, "[YOUR ACCESS TOKEN HERE])
 	tc.SetInput(ivMessageTitle, "Flogo")
 	tc.SetInput(ivMessage, "Go Flogo")
 	//setup attrs
