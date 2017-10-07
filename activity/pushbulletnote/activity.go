@@ -60,7 +60,7 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 	// Create a client for Pushbullet.
 	pb := pushbullet.New(accessToken.(string))
 
-	// Create a request. The following codes create a note, which is of note types.
+	// Create a request. The following code creates a note, which is of type "note" .
 	n := requests.NewNote()
 	n.Title = noteTitle.(string)
 	n.Body = note.(string)

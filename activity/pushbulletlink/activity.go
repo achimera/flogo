@@ -62,7 +62,7 @@ func (a *PushbulletLinkActivity) Eval(context activity.Context) (done bool, err 
 	// Create a client for Pushbullet.
 	pb := pushbullet.New(accessToken.(string))
 
-	// Create a request. The following codes create a link message, which is of link type.
+	// Create a request. The following code creates a link message, which is of type "link".
 	n := requests.NewLink()
 	n.Title = linkTitle.(string)
 	n.Body = linkMsg.(string)
