@@ -34,7 +34,6 @@ func (a *PushbulletActivity) Metadata() *activity.Metadata {
 
 // Eval implements activity.Activity.Eval
 func (a *PushbulletActivity) Eval(context activity.Context) (done bool, err error) {
-/*yes*/
 	accToken := context.GetInput(ivAccToken)
 	message := context.GetInput(ivMessage)
 	messageTitle := context.GetInput(ivMessageTitle)
