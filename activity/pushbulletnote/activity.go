@@ -75,7 +75,7 @@ func (a *PushbulletNoteActivity) Eval(context activity.Context) (done bool, err 
 		log.Info("Send Pushbullet note to channel %v", channelTarget)
 	}
 
-	if emailTarget != nil && channelTarget != nil {
+	if emailTarget != "" && channelTarget != "" {
 		log.Error("Can't send note to email and channel. Please choose only one target")
 		context.SetOutput(ovStatus, "TOO_MANY_TARGETS_ERR")
 		return true, nil
