@@ -1,0 +1,53 @@
+{
+  "name": "raspicam",
+  "type": "flogo:activity",
+  "ref": "github.com/achimera/flogo/activity/raspicam", 
+  "version": "0.0.1",
+  "title": "Raspberry Pi Camera Activity",
+  "description": "Simple activity to take a picture by using the Raspberry Pi camera",
+  "author": "Alessandro Chimera <achimera@tibco.com>",
+  "homepage": "https://github.com/achimera/flogo/tree/master/activity/raspicam",
+  "inputs":[
+    {
+      "name": "timeout",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "sharpness",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "brightness",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "contrast",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "saturation",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "iso",
+      "type": "int",
+      "required": false
+    },
+    {
+      "name": "filename",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "outputs": [
+  	{
+      "name": "status",
+      "type": "string"
+    }
+  ]
+}
