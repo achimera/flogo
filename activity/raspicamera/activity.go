@@ -1,4 +1,4 @@
-package raspicam
+package raspicamera
 
 import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -11,7 +11,7 @@ import (
 )
 
 // log is the default package logger
-var log = logger.GetLogger("activity-raspicam")
+var log = logger.GetLogger("activity-raspicamera")
 
 const (
 	ivTimeout 		= "timeout" //delay before the image is taken
@@ -25,23 +25,23 @@ const (
 	ovStatus        = "status"
 )
 
-// RaspicamActivity is a stub for your Activity implementation
-type RaspicamActivity struct {
+// RaspicameraActivity is a stub for your Activity implementation
+type RaspicameraActivity struct {
 	metadata *activity.Metadata
 }
 
 // NewActivity creates a new activity
 func NewActivity(metadata *activity.Metadata) activity.Activity {
-	return &RaspicamActivity{metadata: metadata}
+	return &RaspicameraActivity{metadata: metadata}
 }
 
 // Metadata implements activity.Activity.Metadata
-func (a *RaspicamActivity) Metadata() *activity.Metadata {
+func (a *RaspicameraActivity) Metadata() *activity.Metadata {
 	return a.metadata
 }
 
 // Eval implements activity.Activity.Eval
-func (a *RaspicamActivity) Eval(context activity.Context) (done bool, err error) {
+func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err error) {
 	timeout := context.GetInput(ivTimeout)
 	sharpness := context.GetInput(ivSharpness)
 	brightness := context.GetInput(ivBrightness)

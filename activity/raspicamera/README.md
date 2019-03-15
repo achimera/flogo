@@ -1,13 +1,13 @@
-# raspicam
+# raspicamera
 This activity provides your flogo application the ability to take pictures with the Raspberry Pi camera.
-It is mandatory to specify the filename. If also the path is specified, then it will create the directory structure if it doens't exist.
+It is mandatory to specify the filename. If also the path is specified, then it will create the directory structure if it doesn't exist.
 
 Documentation of the RaspiCam can be found here: https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
 
 ## Installation
 
 ```bash
-flogo add activity github.com/achimera/flogo/activity/raspicam
+flogo add activity github.com/achimera/flogo/activity/raspicamera
 ```
 
 ## Schema
