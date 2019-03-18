@@ -7,7 +7,6 @@ import (
 	"time"
 	"os"
 	"path"
-	"fmt"
 )
 
 // log is the default package logger
@@ -109,7 +108,8 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	errCh := make(chan error)
 	go func() {
 		for x := range errCh {
-			fmt.Fprintf(os.Stderr, "%v\n", x)
+			//fmt.Fprintf(os.Stderr, "%v\n", x)
+			log.Error("%v\n", x)
 		}
 	}()
 
