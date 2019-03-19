@@ -59,7 +59,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	// Create a client for raspicam.
 	still := raspicam.NewStill()
 	if timeout != nil {
-		still.Timeout = timeout.(time.Duration)
+		still.Timeout = time.Duration(timeout.(int))
 		log.Debug("Camera timeout set to %v", timeout)
 	}
 	if sharpness != nil {
@@ -115,16 +115,6 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 
 	raspicam.Capture(still, f, errCh)
 
-
-
-	// Send the link via Pushbullet.
-	/*
-	if _, err = pb.PostPushesLink(n); err != nil {
-		log.Error("Pushbullet Connection Error : ", err)
-		context.SetOutput(ovStatus, "CONNECT_ERR")
-		return true, nil
-	}
-*/
 	context.SetOutput(ovStatus, "OK")
 
 	return true, nil
