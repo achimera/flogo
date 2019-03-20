@@ -59,6 +59,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	// Create a client for raspicam.
 	still := raspicam.NewStill()
 	still.Preview.Mode = raspicam.PreviewDisabled
+	
 	if timeout != nil {
 		still.Timeout = time.Duration(timeout.(int))
 		log.Debug("Camera timeout set to %v", timeout)
