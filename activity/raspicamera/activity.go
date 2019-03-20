@@ -58,11 +58,8 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 
 	// Create a client for raspicam.
 	still := raspicam.NewStill()
-	
 	preview := still.Preview
-	
-still.Preview = preview
-	
+	still.Preview = preview
 
 	if timeout != nil {
 		still.Timeout = time.Duration(timeout.(int))
@@ -101,7 +98,7 @@ still.Preview = preview
 	}
 
 	// create the folder for the image
-	f, err := os.Create(imageFile)
+	f, err := os.Create(filename.(string))
 	if err != nil {
 		log.Error("Raspicam error on creating the image file: %v", err)
 		context.SetOutput(ovStatus, "IMAGE_CREATE__ERR")
@@ -118,6 +115,8 @@ still.Preview = preview
 			log.Error("%v\n", x)
 		}
 	}()
+
+	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", imageFile)
 
 	raspicam.Capture(still, f, errCh)
 
