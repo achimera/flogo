@@ -6,7 +6,7 @@ import (
 	"github.com/dhowden/raspicam"
 	"time"
 	"os"
-	"path"
+	//"path"
 )
 
 // log is the default package logger
@@ -86,6 +86,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 		log.Debug("Camera iso set to %v", iso)
 	}
 
+	/*
 	imageDirectory, imageFile := path.Split(filename.(string))
 	if imageFile == "" {
 		context.SetOutput(ovStatus, "NO_FILENAME_ERR")
@@ -95,7 +96,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 		if _, err := os.Stat(imageDirectory); os.IsNotExist(err) {
 			os.MkdirAll(imageDirectory, 0777)
 		}
-	}
+	}*/
 
 	// create the folder for the image
 	f, err := os.Create(filename.(string))
@@ -117,8 +118,8 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	}()
 
 	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", imageFile)
-
 	raspicam.Capture(still, f, errCh)
+	log.Info("Raspicam created image file: %v", filename)
 
 	context.SetOutput(ovStatus, "OK")
 
