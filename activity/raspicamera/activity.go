@@ -60,9 +60,9 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	still := raspicam.NewStill()
 	//preview := still.Preview
 	//still.Preview = preview
-	const params = "--nopreview"
-	still.Command = params
-	
+
+	mode := raspicam.PreviewDisabled
+	still.Preview.Mode = mode
 	
 	
 	//preview := raspicam.Preview { Mode: raspicam.PreviewDisabled }
@@ -108,7 +108,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	// create the folder for the image
 	f, err := os.Create(filename.(string))
 	if err != nil {
-		log.Error("Raspicam error on creating the image file: %v", err)
+		log.Error("Raspicam error on creating the image file: ", err)
 		context.SetOutput(ovStatus, "IMAGE_CREATE__ERR")
 		return true, nil
 		//fmt.Fprintf(os.Stderr, "create file: %v", err)
@@ -120,13 +120,13 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	go func() {
 		for x := range errCh {
 			//fmt.Fprintf(os.Stderr, "%v\n", x)
-			log.Error("%v\n", x)
+			log.Error("Error %v\n", x)
 		}
 	}()
 
 	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", imageFile)
 	raspicam.Capture(still, f, errCh)
-	log.Info("Raspicam created image file: %v", filename)
+	log.Info("Raspicam created image file: ", filename)
 
 	context.SetOutput(ovStatus, "OK")
 
