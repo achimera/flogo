@@ -60,13 +60,11 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	still := raspicam.NewStill()
 	//preview := still.Preview
 	//still.Preview = preview
-
-	myPreview := raspicam.Preview {
-		Mode: raspicam.PreviewDisabled,
-		Opacity: 255,
-		Rect: raspicam.Rect{X: 0, Y: 0, Width: 0, Height: 0},
-	}
-	still.Preview = myPreview
+	const params = "--nopreview"
+	still.Command = params
+	
+	
+	
 	//preview := raspicam.Preview { Mode: raspicam.PreviewDisabled }
 	
 
