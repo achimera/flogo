@@ -65,7 +65,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	preview := still.Preview
 	preview.Mode = raspicam.PreviewMode(raspicam.PreviewDisabled)
 	
-	log.Info("Preview Mode %v ", preview.Mode)
+	log.Info("Preview Mode %v  ", preview.Mode)
 
 	still.Preview = preview
 	
