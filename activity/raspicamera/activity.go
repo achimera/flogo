@@ -59,7 +59,8 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	// Create a client for raspicam.
 	still := raspicam.NewStill()
 	preview := still.Preview
-	preview.Mode = raspicam.PreviewMode(raspicam.PreviewDisabled)
+	preview.Mode = raspicam.PreviewMode(2)
+
 	still.Preview = preview
 
 	
