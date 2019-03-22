@@ -128,6 +128,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 		}
 	}()
 	log.Info("Raspicam capturing image...")
+	log.Info("Command " , raspicam.CaptureCommand.Cmd)
 	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", imageFile)
 	raspicam.Capture(still, f, errCh)
 	log.Info("Raspicam created image file: ", filename)
