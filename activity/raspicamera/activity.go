@@ -64,13 +64,13 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 
 	preview := still.Preview
 	//preview.Mode = raspicam.PreviewMode(raspicam.PreviewDisabled)
+	preview.Mode = raspicam.PreviewDisabled
 	
 	log.Info("Preview Mode %v  ", preview.Mode)
 
 	still.Preview = preview
 	
 	//preview := raspicam.Preview { Mode: raspicam.PreviewDisabled }
-	
 
 	if timeout != nil {
 		still.Timeout = time.Duration(timeout.(int))
