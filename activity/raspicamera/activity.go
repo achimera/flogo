@@ -133,6 +133,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	raspicam.Capture(still, f, errCh)
 	log.Info("Raspicam created image file: ", filename)
 
+
 	context.SetOutput(ovStatus, "OK")
 
 	return true, nil
