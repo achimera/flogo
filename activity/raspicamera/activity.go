@@ -42,6 +42,7 @@ func (a *RaspicameraActivity) Metadata() *activity.Metadata {
 // Eval implements activity.Activity.Eval
 func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err error) {
 	timeout := context.GetInput(ivTimeout)
+	log.Info("Camera timeout set to ", timeout)
 	sharpness := context.GetInput(ivSharpness)
 	brightness := context.GetInput(ivBrightness)
 	contrast := context.GetInput(ivContrast)
