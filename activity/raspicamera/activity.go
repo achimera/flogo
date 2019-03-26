@@ -75,7 +75,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 
 	if timeout != nil {
 		still.Timeout = time.Duration(timeout.(int))
-		log.Debug("Camera timeout set to %v", timeout)
+		log.Info("Camera timeout set to %v", timeout)
 	}
 	if sharpness != nil {
 		still.Camera.Sharpness = sharpness.(int)
