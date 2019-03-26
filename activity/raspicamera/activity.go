@@ -5,7 +5,10 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/dhowden/raspicam"
 	"time"
-	"os"
+	
+	"os/exec"
+	"bytes"
+	"fmt"
 	//"path"
 )
 
@@ -111,6 +114,7 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	}*/
 
 	// create the folder for the image
+	/*
 	f, err := os.Create(filename.(string))
 	if err != nil {
 		log.Error("Raspicam error on creating the image file: ", err)
@@ -128,10 +132,20 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 			log.Error("Error %v\n", x)
 		}
 	}()
+	*/
 	log.Info("Raspicam capturing image...")
-	log.Info("Command " , raspicam.CaptureCommand(still))
-	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", imageFile)
-	raspicam.Capture(still, f, errCh)
+	
+	cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", filename.(string))
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+
+	myErr := cmd.Run()
+	// Check for errors
+	if myErr != nil {
+		log.Error(fmt.Sprint(myErr) + ": " + stderr.String())
+	}
+
+	//raspicam.Capture(still, f, errCh)
 	log.Info("Raspicam created image file: ", filename)
 
 	context.SetOutput(ovStatus, "OK")
