@@ -1,8 +1,11 @@
 # webcam
-This activity provides your flogo application the ability to take pictures with a USB connected Webcam camera.
+This activity provides your flogo application the ability to take pictures with a USB connected Webcam.
 It is mandatory to specify the filename. If also the path is specified, then it will create the directory structure if it doesn't exist.
 
-Documentation of the RaspiCam can be found here: https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
+This activity uses the GoCV package that provides a binding for the OpenCV 4 computer vision library. Based
+on the specific OS, you need to install OpenCV 4 on your system. 
+
+The installation instructions can be found here: https://github.com/hybridgroup/gocv#how-to-install
 
 ## Installation
 
@@ -17,42 +20,16 @@ Inputs and Outputs:
 {
   "inputs":[
     {
-      "name": "timeout",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "sharpness",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "brightness",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "contrast",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "saturation",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "iso",
-      "type": "int",
-      "required": false
-    },
-    {
       "name": "filename",
       "type": "string",
       "required": true
     }
   ],
   "outputs": [
+    {
+      "name": "image",
+      "type": "[]byte"
+    },
   	{
       "name": "status",
       "type": "string"
@@ -63,12 +40,8 @@ Inputs and Outputs:
 ## Settings
 | Setting      | Description    |
 |:-------------|:---------------|        
-| timeout   | The Pushbullet access token allocated for your app |
-| sharpness | The title of the link |
-| linkMsg      	 | The message associated with the link to send |
-| linkUrl      	 | The URL to open |
-| emailTarget    	| The email address where to send the link. Only one target is allowed |
-| channelTarget    	| The channel name where to send the link. Only one target is allowed |
+| filename   | The Pushbullet access token allocated for your app |
+
 
 If emailTarget and channelTarget are empty, then the link is sent to all devices. 
 

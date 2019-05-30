@@ -13,7 +13,6 @@ var log = logger.GetLogger("activity-webcam")
 
 const (
 	ivDeviceID = "deviceID"
-
 	ivFilename = "fileName"
 
 	ovImage  = "image"
@@ -56,11 +55,11 @@ func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
 		return
 	}
 	defer webcam.Close()
-	//img := gocv.NewMatFromBytes
 
 	img := gocv.NewMat()
 	defer img.Close()
 
+	log.Info("Webcam capturing image...")
 	if ok := webcam.Read(&img); !ok {
 		fmt.Printf("cannot read device %v\n", deviceID)
 		return
@@ -69,53 +68,11 @@ func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
 		fmt.Printf("no image on device %v\n", deviceID)
 		return
 	}
+	log.Info("Done. Image captured.")
 
 	imgByte := img.ToBytes()
+	log.Info(imgByte)
 	gocv.IMWrite(fileName, img)
-
-	/*
-		imageDirectory, imageFile := path.Split(filename.(string))
-		if imageFile == "" {
-			context.SetOutput(ovStatus, "NO_FILENAME_ERR")
-			return true, nil
-		}
-		if imageDirectory == "" {
-			if _, err := os.Stat(imageDirectory); os.IsNotExist(err) {
-				os.MkdirAll(imageDirectory, 0777)
-			}
-		}*/
-
-	// create the folder for the image
-	/*
-		f, err := os.Create(filename.(string))
-		if err != nil {
-			log.Error("Raspicam error on creating the image file: ", err)
-			context.SetOutput(ovStatus, "IMAGE_CREATE__ERR")
-			return true, nil
-			//fmt.Fprintf(os.Stderr, "create file: %v", err)
-
-		}
-		defer f.Close()
-
-		errCh := make(chan error)
-		go func() {
-			for x := range errCh {
-				//fmt.Fprintf(os.Stderr, "%v\n", x)
-				log.Error("Error %v\n", x)
-			}
-		}()
-	*/
-	log.Info("Webcam capturing image...")
-
-	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "TIBCO - %d-%m-%Y %X %r", "-o", filename.(string))
-	//var stderr bytes.Buffer
-	//cmd.Stderr = &stderr
-
-	//myErr := cmd.Run()
-	// Check for errors
-	//if myErr != nil {
-	//	log.Error(fmt.Sprint(myErr) + ": " + stderr.String())
-	//}
 
 	context.SetOutput(ovImage, imgByte)
 	context.SetOutput(ovStatus, "OK")

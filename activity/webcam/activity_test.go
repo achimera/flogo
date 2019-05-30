@@ -54,5 +54,10 @@ func TestEval(t *testing.T) {
 
 	act.Eval(tc)
 
+	result := tc.GetOutput(ovImage)
+	status := tc.GetOutput(ovStatus).(string)
+
+	t.Error(result)
+	t.Error(status)
 	//check result attr
 }

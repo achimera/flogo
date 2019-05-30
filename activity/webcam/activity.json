@@ -20,6 +20,10 @@
     }
   ],
   "outputs": [
+    {
+      "name": "image",
+      "type": "[]byte"
+    },
   	{
       "name": "status",
       "type": "string"
