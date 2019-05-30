@@ -9,37 +9,12 @@
   "homepage": "https://github.com/achimera/flogo/tree/master/activity/webcam",
   "inputs":[
     {
-      "name": "timeout",
+      "name": "deviceID",
       "type": "int",
-      "required": false
+      "required": true
     },
     {
-      "name": "sharpness",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "brightness",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "contrast",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "saturation",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "iso",
-      "type": "int",
-      "required": false
-    },
-    {
-      "name": "filename",
+      "name": "fileName",
       "type": "string",
       "required": true
     }

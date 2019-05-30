@@ -1,28 +1,22 @@
-package raspicamera
+package webcam
 
 import (
-	"bytes"
 	"fmt"
-	"os/exec"
-	"time"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/dhowden/raspicam"
+	"gocv.io/x/gocv"
 )
 
 // log is the default package logger
 var log = logger.GetLogger("activity-webcam")
 
 const (
-	ivTimeout    = "timeout" //delay before the image is taken
-	ivSharpness  = "sharpness"
-	ivBrightness = "brightness"
-	ivContrast   = "contrast"
-	ivSaturation = "saturation"
-	ivISO        = "iso"
-	ivFilename   = "filename"
+	ivDeviceID = "deviceID"
 
+	ivFilename = "fileName"
+
+	ovImage  = "image"
 	ovStatus = "status"
 )
 
@@ -43,62 +37,41 @@ func (a *WebcamActivity) Metadata() *activity.Metadata {
 
 // Eval implements activity.Activity.Eval
 func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
-	timeout := context.GetInput(ivTimeout)
-	log.Info("Camera timeout set to ", timeout)
-	sharpness := context.GetInput(ivSharpness)
-	brightness := context.GetInput(ivBrightness)
-	contrast := context.GetInput(ivContrast)
-	saturation := context.GetInput(ivSaturation)
-	iso := context.GetInput(ivISO)
-	filename := context.GetInput(ivFilename)
+	deviceID := context.GetInput(ivDeviceID)
+	fileName := context.GetInput(ivFilename).(string)
 
 	// Check if mandatory credentials are set in config
-	if filename == nil {
-		log.Error("Missing output filename")
+	if fileName == "" {
+		log.Error("Missing output fileName")
 		err := activity.NewError("Raspicam filename config not specified", "", nil)
 		return false, err
 	}
 
-	// Create a client for raspicam.
-	still := raspicam.NewStill()
+	webcam, err := gocv.OpenVideoCapture(deviceID)
+	webcam.Set(gocv.VideoCaptureFrameHeight, 1280)
+	webcam.Set(gocv.VideoCaptureFrameWidth, 720)
 
-	//myPreview := raspicam.Preview { Mode: raspicam.PreviewDisabled, Opacity: 0, Rect: raspicam.Rect { X:0, Y:0, Width: 0, Height: 0}, }
-	//still.BaseStill.Preview = myPreview
+	if err != nil {
+		fmt.Printf("Error opening video capture device: %v\n", deviceID)
+		return
+	}
+	defer webcam.Close()
+	//img := gocv.NewMatFromBytes
 
-	preview := still.Preview
-	//preview.Mode = raspicam.PreviewMode(raspicam.PreviewDisabled)
-	preview.Mode = raspicam.PreviewDisabled
+	img := gocv.NewMat()
+	defer img.Close()
 
-	log.Info("Preview Mode %v  ", preview.Mode)
+	if ok := webcam.Read(&img); !ok {
+		fmt.Printf("cannot read device %v\n", deviceID)
+		return
+	}
+	if img.Empty() {
+		fmt.Printf("no image on device %v\n", deviceID)
+		return
+	}
 
-	still.Preview = preview
-
-	//preview := raspicam.Preview { Mode: raspicam.PreviewDisabled }
-
-	if timeout != nil {
-		still.Timeout = time.Duration(timeout.(int))
-		log.Info("Camera timeout set to %v", timeout)
-	}
-	if sharpness != nil {
-		still.Camera.Sharpness = sharpness.(int)
-		log.Debug("Camera sharpness set to %v", sharpness)
-	}
-	if brightness != nil {
-		still.Camera.Brightness = brightness.(int)
-		log.Debug("Camera brightness set to %v", brightness)
-	}
-	if contrast != nil {
-		still.Camera.Contrast = contrast.(int)
-		log.Debug("Camera contrast set to %v", contrast)
-	}
-	if saturation != nil {
-		still.Camera.Saturation = saturation.(int)
-		log.Debug("Camera saturation set to %v", saturation)
-	}
-	if iso != nil {
-		still.Camera.ISO = iso.(int)
-		log.Debug("Camera iso set to %v", iso)
-	}
+	imgByte := img.ToBytes()
+	gocv.IMWrite(fileName, img)
 
 	/*
 		imageDirectory, imageFile := path.Split(filename.(string))
@@ -132,21 +105,19 @@ func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
 			}
 		}()
 	*/
-	log.Info("Raspicam capturing image...")
+	log.Info("Webcam capturing image...")
 
-	cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "TIBCO - %d-%m-%Y %X %r", "-o", filename.(string))
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
+	//cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "TIBCO - %d-%m-%Y %X %r", "-o", filename.(string))
+	//var stderr bytes.Buffer
+	//cmd.Stderr = &stderr
 
-	myErr := cmd.Run()
+	//myErr := cmd.Run()
 	// Check for errors
-	if myErr != nil {
-		log.Error(fmt.Sprint(myErr) + ": " + stderr.String())
-	}
+	//if myErr != nil {
+	//	log.Error(fmt.Sprint(myErr) + ": " + stderr.String())
+	//}
 
-	//raspicam.Capture(still, f, errCh)
-	log.Info("Raspicam created image file: ", filename)
-
+	context.SetOutput(ovImage, imgByte)
 	context.SetOutput(ovStatus, "OK")
 
 	return true, nil
