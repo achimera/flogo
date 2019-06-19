@@ -3,8 +3,8 @@ package webcam
 import (
 	"fmt"
 
-	"github.com/TIBCOSoftware/flogo-lib/core/activity"
-	"github.com/TIBCOSoftware/flogo-lib/logger"
+	"github.com/project-flogo/core/support/log"
+	"github.com/project-flogo/core/activity"
 	"gocv.io/x/gocv"
 )
 

@@ -1,14 +1,15 @@
 package raspicamera
 
 import (
+	"time"
+
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/dhowden/raspicam"
-	"time"
-	
-	"os/exec"
+
 	"bytes"
 	"fmt"
+	"os/exec"
 	//"path"
 )
 
@@ -16,15 +17,16 @@ import (
 var log = logger.GetLogger("activity-raspicamera")
 
 const (
-	ivTimeout 		= "timeout" //delay before the image is taken
-	ivSharpness 	= "sharpness"
-	ivBrightness 	= "brightness"
-	ivContrast		= "contrast"
-	ivSaturation 	= "saturation"
-	ivISO			= "iso"
-	ivFilename		= "filename"
+	ivTimeout    = "timeout" //delay before the image is taken
+	ivSharpness  = "sharpness"
+	ivBrightness = "brightness"
+	ivContrast   = "contrast"
+	ivSaturation = "saturation"
+	ivISO        = "iso"
+	ivFilename   = "filename"
 
-	ovStatus        = "status"
+	ovStatus  = "status"
+	ovPicture = "picture"
 )
 
 // RaspicameraActivity is a stub for your Activity implementation
@@ -69,11 +71,11 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	preview := still.Preview
 	//preview.Mode = raspicam.PreviewMode(raspicam.PreviewDisabled)
 	preview.Mode = raspicam.PreviewDisabled
-	
+
 	log.Info("Preview Mode %v  ", preview.Mode)
 
 	still.Preview = preview
-	
+
 	//preview := raspicam.Preview { Mode: raspicam.PreviewDisabled }
 
 	if timeout != nil {
@@ -102,42 +104,45 @@ func (a *RaspicameraActivity) Eval(context activity.Context) (done bool, err err
 	}
 
 	/*
-	imageDirectory, imageFile := path.Split(filename.(string))
-	if imageFile == "" {
-		context.SetOutput(ovStatus, "NO_FILENAME_ERR")
-		return true, nil
-	}
-	if imageDirectory == "" {
-		if _, err := os.Stat(imageDirectory); os.IsNotExist(err) {
-			os.MkdirAll(imageDirectory, 0777)
+		imageDirectory, imageFile := path.Split(filename.(string))
+		if imageFile == "" {
+			context.SetOutput(ovStatus, "NO_FILENAME_ERR")
+			return true, nil
 		}
-	}*/
+		if imageDirectory == "" {
+			if _, err := os.Stat(imageDirectory); os.IsNotExist(err) {
+				os.MkdirAll(imageDirectory, 0777)
+			}
+		}*/
 
 	// create the folder for the image
 	/*
-	f, err := os.Create(filename.(string))
-	if err != nil {
-		log.Error("Raspicam error on creating the image file: ", err)
-		context.SetOutput(ovStatus, "IMAGE_CREATE__ERR")
-		return true, nil
-		//fmt.Fprintf(os.Stderr, "create file: %v", err)
+		f, err := os.Create(filename.(string))
+		if err != nil {
+			log.Error("Raspicam error on creating the image file: ", err)
+			context.SetOutput(ovStatus, "IMAGE_CREATE__ERR")
+			return true, nil
+			//fmt.Fprintf(os.Stderr, "create file: %v", err)
 
-	}
-	defer f.Close()
-
-	errCh := make(chan error)
-	go func() {
-		for x := range errCh {
-			//fmt.Fprintf(os.Stderr, "%v\n", x)
-			log.Error("Error %v\n", x)
 		}
-	}()
+		defer f.Close()
+
+		errCh := make(chan error)
+		go func() {
+			for x := range errCh {
+				//fmt.Fprintf(os.Stderr, "%v\n", x)
+				log.Error("Error %v\n", x)
+			}
+		}()
 	*/
 	log.Info("Raspicam capturing image...")
-	
-	cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "achimera| %F %r", "-o", filename.(string))
+
+	cmd := exec.Command("raspistill", "-vf", "-hf", "-a", "1024", "-a", "8", "-a", "TIBCO - %d-%m-%Y %X %r", "-o", filename.(string))
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
+
+	var stdout bytes.Buffer
+	cmd.Stdout = &stdout
 
 	myErr := cmd.Run()
 	// Check for errors

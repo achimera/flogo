@@ -22,7 +22,7 @@
   "outputs": [
     {
       "name": "image",
-      "type": "[]byte"
+      "type": "byte"
     },
   	{
       "name": "status",
