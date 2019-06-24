@@ -2,56 +2,54 @@ package webcam
 
 import (
 	"fmt"
+	"strconv"
 
-	"github.com/project-flogo/core/support/log"
 	"github.com/project-flogo/core/activity"
+	"github.com/project-flogo/core/data/metadata"
 	"gocv.io/x/gocv"
 )
 
-// log is the default package logger
-var log = logger.GetLogger("activity-webcam")
-
-const (
-	ivDeviceID = "deviceID"
-	ivFilename = "fileName"
-
-	ovImage  = "image"
-	ovStatus = "status"
-)
-
-// WebcamActivity is a stub for your Activity implementation
-type WebcamActivity struct {
-	metadata *activity.Metadata
+func init() {
+	_ = activity.Register(&Activity{}, New)
 }
 
-// NewActivity creates a new activity
-func NewActivity(metadata *activity.Metadata) activity.Activity {
-	return &WebcamActivity{metadata: metadata}
+var activityMd = activity.ToMetadata(&Input{}, &Output{})
+
+// Activity is a kafka activity
+type Activity struct {
+	deviceID int
 }
 
-// Metadata implements activity.Activity.Metadata
-func (a *WebcamActivity) Metadata() *activity.Metadata {
-	return a.metadata
-}
+// New create a new  activity
+func New(ctx activity.InitContext) (activity.Activity, error) {
+	settings := &Settings{}
 
-// Eval implements activity.Activity.Eval
-func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
-	deviceID := context.GetInput(ivDeviceID)
-	fileName := context.GetInput(ivFilename).(string)
-
-	// Check if mandatory credentials are set in config
-	if fileName == "" {
-		log.Error("Missing output fileName")
-		err := activity.NewError("Raspicam filename config not specified", "", nil)
-		return false, err
+	err := metadata.MapToStruct(ctx.Settings(), settings, true)
+	if err != nil {
+		return nil, err
 	}
 
-	webcam, err := gocv.OpenVideoCapture(deviceID)
+	deviceID, err := strconv.Atoi(settings.deviceID)
+
+	act := &Activity{deviceID: deviceID}
+	return act, nil
+}
+
+// Metadata returns the metadata for the kafka activity
+func (*Activity) Metadata() *activity.Metadata {
+	return activityMd
+}
+
+// Eval implements the evaluation of the kafka activity
+func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
+	//input := &Input{}
+
+	webcam, err := gocv.OpenVideoCapture(act.deviceID)
 	webcam.Set(gocv.VideoCaptureFrameHeight, 1280)
 	webcam.Set(gocv.VideoCaptureFrameWidth, 720)
 
 	if err != nil {
-		fmt.Printf("Error opening video capture device: %v\n", deviceID)
+		fmt.Printf("Error opening video capture device: %v\n", act.deviceID)
 		return
 	}
 	defer webcam.Close()
@@ -59,23 +57,36 @@ func (a *WebcamActivity) Eval(context activity.Context) (done bool, err error) {
 	img := gocv.NewMat()
 	defer img.Close()
 
-	log.Info("Webcam capturing image...")
+	ctx.Logger().Info("Webcam capturing image...")
 	if ok := webcam.Read(&img); !ok {
-		fmt.Printf("cannot read device %v\n", deviceID)
+		fmt.Printf("cannot read device %v\n", act.deviceID)
 		return
 	}
 	if img.Empty() {
-		fmt.Printf("no image on device %v\n", deviceID)
+		fmt.Printf("no image on device %v\n", act.deviceID)
 		return
 	}
-	log.Info("Done. Image captured.")
+	ctx.Logger().Info("Done. Image captured.")
 
 	imgByte := img.ToBytes()
-	log.Info(imgByte)
-	gocv.IMWrite(fileName, img)
+	ctx.Logger().Info(imgByte)
+	gocv.IMWrite("test.png", img)
 
-	context.SetOutput(ovImage, imgByte)
-	context.SetOutput(ovStatus, "OK")
+	output := &Output{}
+	output.Image = imgByte
+	output.Status = "OK"
+
+	/*
+		if ctx.Logger().DebugEnabled() {
+			ctx.Logger().Debugf("Kafka message [%v] sent successfully on partition [%d] and offset [%d]",
+				input.Message, partition, offset)
+		}
+	*/
+
+	err = ctx.SetOutputObject(output)
+	if err != nil {
+		return false, err
+	}
 
 	return true, nil
 }
