@@ -1,63 +1,36 @@
 package webcam
 
 import (
-	"io/ioutil"
 	"testing"
 
-	"github.com/TIBCOSoftware/flogo-contrib/action/flow/test"
-	"github.com/TIBCOSoftware/flogo-lib/core/activity"
+	"github.com/project-flogo/core/activity"
+	"github.com/project-flogo/core/support/test"
+	"github.com/stretchr/testify/assert"
 )
 
-var activityMetadata *activity.Metadata
+func TestRegister(t *testing.T) {
 
-func getActivityMetadata() *activity.Metadata {
+	ref := activity.GetRef(&Activity{})
+	act := activity.Get(ref)
 
-	if activityMetadata == nil {
-		jsonMetadataBytes, err := ioutil.ReadFile("activity.json")
-		if err != nil {
-			panic("No Json Metadata found for activity.json path")
-		}
-
-		activityMetadata = activity.NewMetadata(string(jsonMetadataBytes))
-	}
-
-	return activityMetadata
+	assert.NotNil(t, act)
 }
 
-func TestCreate(t *testing.T) {
+func TestPlain(t *testing.T) {
+	settings := &Settings{DeviceID: "0"}
 
-	act := NewActivity(getActivityMetadata())
+	iCtx := test.NewActivityInitContext(settings, nil)
+	act, err := New(iCtx)
+	assert.Nil(t, err)
 
-	if act == nil {
-		t.Error("Activity Not Created")
-		t.Fail()
-		return
-	}
-}
+	tc := test.NewActivityContext(act.Metadata())
 
-func TestEval(t *testing.T) {
+	done, err := act.Eval(tc)
+	assert.Nil(t, err)
+	assert.True(t, done)
 
-	defer func() {
-		if r := recover(); r != nil {
-			t.Failed()
-			t.Errorf("panic during execution: %v", r)
-		}
-	}()
+	output := &Output{}
+	err = tc.GetOutputObject(output)
+	t.Log("Image output: ", output.Image)
 
-	act := NewActivity(getActivityMetadata())
-	tc := test.NewTestActivityContext(getActivityMetadata())
-
-	tc.SetInput(ivDeviceID, "0")
-	tc.SetInput(ivFilename, "test.png")
-
-	//setup attrs
-
-	act.Eval(tc)
-
-	result := tc.GetOutput(ovImage)
-	status := tc.GetOutput(ovStatus).(string)
-
-	t.Error(result)
-	t.Error(status)
-	//check result attr
 }

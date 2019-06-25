@@ -5,18 +5,26 @@ import (
 )
 
 type Settings struct {
-	deviceID string `md:"deviceID,required"` // The webcam deviceId
-
+	DeviceID string `md:"deviceID, required"` // The webcam deviceId
 }
+
 type Input struct {
+	in string `md:"in"`
 }
 
 func (i *Input) ToMap() map[string]interface{} {
-	return nil
+	return map[string]interface{}{
+		"in": i.in,
+	}
 }
 
 func (i *Input) FromMap(values map[string]interface{}) error {
 
+	var err error
+	i.in, err = coerce.ToString(values["in"])
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -35,6 +43,7 @@ func (o *Output) ToMap() map[string]interface{} {
 func (o *Output) FromMap(values map[string]interface{}) error {
 
 	var err error
+
 	o.Image, err = coerce.ToBytes(values["image"])
 	if err != nil {
 		return err

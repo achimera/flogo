@@ -15,9 +15,6 @@
       "description": "The device Id of the connected webcam"
     }
   ],
-  "input":[
-   
-  ],
   "output": [
     {
       "name": "image",

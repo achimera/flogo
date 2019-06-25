@@ -13,7 +13,7 @@ func init() {
 	_ = activity.Register(&Activity{}, New)
 }
 
-var activityMd = activity.ToMetadata(&Input{}, &Output{})
+var activityMd = activity.ToMetadata(&Output{})
 
 // Activity is a kafka activity
 type Activity struct {
@@ -23,13 +23,15 @@ type Activity struct {
 // New create a new  activity
 func New(ctx activity.InitContext) (activity.Activity, error) {
 	settings := &Settings{}
+	ctx.Logger().Info("Settings done.")
 
 	err := metadata.MapToStruct(ctx.Settings(), settings, true)
 	if err != nil {
 		return nil, err
 	}
 
-	deviceID, err := strconv.Atoi(settings.deviceID)
+	deviceID, err := strconv.Atoi(settings.DeviceID)
+	ctx.Logger().Info("deviceID has been set: ", deviceID)
 
 	act := &Activity{deviceID: deviceID}
 	return act, nil
@@ -42,7 +44,7 @@ func (*Activity) Metadata() *activity.Metadata {
 
 // Eval implements the evaluation of the kafka activity
 func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	//input := &Input{}
+	//settings := &Settings{}
 
 	webcam, err := gocv.OpenVideoCapture(act.deviceID)
 	webcam.Set(gocv.VideoCaptureFrameHeight, 1280)
@@ -57,7 +59,7 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	img := gocv.NewMat()
 	defer img.Close()
 
-	ctx.Logger().Info("Webcam capturing image...")
+	ctx.Logger().Info("Webcam is taking a picture...")
 	if ok := webcam.Read(&img); !ok {
 		fmt.Printf("cannot read device %v\n", act.deviceID)
 		return
@@ -70,10 +72,11 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	imgByte := img.ToBytes()
 	ctx.Logger().Info(imgByte)
-	gocv.IMWrite("test.png", img)
+	gocv.IMWrite("test.png", img) //just for debug
 
 	output := &Output{}
 	output.Image = imgByte
+	//output.Image = []byte{} //dummy
 	output.Status = "OK"
 
 	/*
