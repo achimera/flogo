@@ -71,12 +71,12 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	ctx.Logger().Info("Done. Image captured.")
 
 	imgByte := img.ToBytes()
-	ctx.Logger().Info(imgByte)
-	gocv.IMWrite("test.png", img) //just for debug
+	//ctx.Logger().Info(imgByte)
+	//gocv.IMWrite("test.png", img) //just for debug
 
 	output := &Output{}
 	output.Image = imgByte
-	//output.Image = []byte{} //dummy
+	//output.Image = []byte{} //dummy empty byte array
 	output.Status = "OK"
 
 	/*
