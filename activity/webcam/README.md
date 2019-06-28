@@ -1,27 +1,37 @@
 # webcam
 This activity provides your flogo application the ability to take pictures with a USB connected Webcam.
-It is mandatory to specify the filename. If also the path is specified, then it will create the directory structure if it doesn't exist.
+It is mandatory to specify the device Id and the image resolution as width and height.
 
 This activity uses the GoCV package that provides a binding for the OpenCV 4 computer vision library. Based
-on the specific OS, you need to install OpenCV 4 on your system. 
+on the specific OS, you need to install OpenCV 4 on your system, otherwise the activity will throw an exception.
 
 The installation instructions can be found here: https://github.com/hybridgroup/gocv#how-to-install
 
 ## Installation
 
 ```bash
-flogo add activity github.com/achimera/flogo/activity/webcam
+flogo install activity github.com/achimera/flogo/activity/webcam
 ```
 
 ## Schema
-Inputs and Outputs:
+Settings and Outputs:
 
 ```json
 {
-  "inputs":[
+  "settings":[
     {
-      "name": "filename",
-      "type": "string",
+      "name": "deviceID",
+      "type": "int",
+      "required": true
+	},
+	{
+      "name": "imageWidth",
+      "type": "int",
+      "required": true
+	},
+	{
+      "name": "imageHeigth",
+      "type": "int",
       "required": true
     }
   ],
@@ -38,51 +48,33 @@ Inputs and Outputs:
 }
 ```
 ## Settings
-| Setting      | Description    |
+| Name         | Type | Description    |
+|:-------------|:-----|:---------------|        
+| deviceId     | int  | The device id of the webcam. Usually the device id is 0 for onboard cameras |
+| imageWidth   | int  | The resolution width of the image. Please check the resolutions that your webcam are supporting |
+| imageHeigth  | int  | The resolution height of the image. Please check the resolutions that your webcam are supporting |
+
+## Output
+| Name      | Type |Description    |
 |:-------------|:---------------|        
-| filename   | The Pushbullet access token allocated for your app |
-
-
-If emailTarget and channelTarget are empty, then the link is sent to all devices. 
-
-In the 'status' output, you may get the following values:
-- 'OK' : the link was correctly sent
-- 'PUSH_ERR' : an error on sending the link via Pushbullet
-- 'CONNECT_ERR' : if there was an error connecting to Pushbullet
-- 'NO_LINK_URL_ERR' : if the link URL field is empty
-- 'TOO_MANY_TARGETS_ERR' : if multiple targets are specified
-
+| image   | []byte | The captured image is returned as a byte array. No Base64 encoding is done. |
+| status  | string | The status of the operation. "OK" is returned when the webcam successfully captured an image | 
 
 ## Configuration Example
 
 ```json
-            {  
-            	"id": 2,
-            	"name": "Pushbullet Link Notification",
-            	"type":1,
-            	"activityType":"pushbulletlink",
-            	"attributes":[  
-    				{
-      					"name": "accessToken",
-      					"value": "YOUR_ACCESS_TOKEN",
-      					"type": "string"
-            },
-            {
-      					"name": "linkTitle",
-      					"value": "YOUR_LINK_TITLE",
-      					"type": "string"
-    				},
-    				{
-      					"name": "linkMsg",
-      					"value": "YOUR_LINK_MESSAGE",
-      					"type": "string"
-    				},
-    			  {
-      					"name": "linkUrl",
-      					"value": "YOUR_URL_TO_OPEN",
-      					"type": "string"
-    				}
-            	]
-         	},
+          {
+            "id": "webcam",
+            "name": "Take a picture from a Webcam",
+            "description": "Webcam Activity",
+            "activity": {
+            	"ref": "github.com/achimera/flogo/activity/webcam",
+              	"settings": {
+					"deviceID": "0",
+					"imageWidth": "1024",
+					"imageHeigth": "720"
+              	}
+            }
+          }
 ```
 
