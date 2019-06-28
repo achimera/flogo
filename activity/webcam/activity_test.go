@@ -17,7 +17,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestPlain(t *testing.T) {
-	settings := &Settings{DeviceID: "0"}
+	settings := &Settings{DeviceID: "0", ImageWidth: 1024, ImageHeigth: 720}
 
 	iCtx := test.NewActivityInitContext(settings, nil)
 	act, err := New(iCtx)
