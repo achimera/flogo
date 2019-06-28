@@ -84,7 +84,6 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	output := &Output{}
 	output.Image = imgByte
-	//output.Image = []byte{} //dummy empty byte array
 	output.Status = "OK"
 
 	/*
