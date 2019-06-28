@@ -55,10 +55,10 @@ Settings and Outputs:
 | imageHeigth  | int  | The resolution height of the image. Please check the resolutions that your webcam are supporting |
 
 ## Output
-| Name      | Type |Description    |
-|:-------------|:---------------|        
-| image   | []byte | The captured image is returned as a byte array. No Base64 encoding is done. |
-| status  | string | The status of the operation. "OK" is returned when the webcam successfully captured an image | 
+| Name      | Type   | Description    |
+|:----------|:-------|:---------------|        
+| image     | []byte | The captured image is returned as a byte array. No Base64 encoding is done. |
+| status    | string | The status of the operation. "OK" is returned when the webcam successfully captured an image | 
 
 ## Configuration Example
 
