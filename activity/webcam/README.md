@@ -68,11 +68,11 @@ Settings and Outputs:
             "name": "Take a picture from a Webcam",
             "description": "Webcam Activity",
             "activity": {
-            	"ref": "github.com/achimera/flogo/activity/webcam",
-              	"settings": {
-					"deviceID": "0",
-					"imageWidth": "1024",
-					"imageHeigth": "720"
+                "ref": "github.com/achimera/flogo/activity/webcam",
+                "settings": {
+			        "deviceID": "0",
+			        "imageWidth": "1024",
+			        "imageHeigth": "720"
               	}
             }
           }
