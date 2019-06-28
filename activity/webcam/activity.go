@@ -38,7 +38,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	imageWidth := settings.ImageWidth
 	imageHeight := settings.ImageHeigth
 
-	ctx.Logger().Info("Image resolution has been set to %v x %v: ", imageWidth, imageHeight)
+	ctx.Logger().Info("Image resolution has been set to: ", imageWidth, "x", imageHeight)
 
 	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight}
 	return act, nil
