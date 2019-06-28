@@ -12,7 +12,19 @@
       "name": "deviceID",
       "type": "int",
       "required": true,
-      "description": "The device Id of the connected webcam"
+      "description": "The device Id of the connected webcam (0 is usually the onboard webcam)"
+    },
+    {
+      "name": "imageWidth",
+      "type": "int",
+      "required": true,
+      "description": "The image resolution width  setting (must be supported by the webcam)"
+    },
+    {
+      "name": "imageHeight",
+      "type": "int",
+      "required": true,
+      "description": "The image resolution height setting (must be supported by the webcam)"
     }
   ],
   "output": [

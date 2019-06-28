@@ -17,7 +17,9 @@ var activityMd = activity.ToMetadata(&Output{})
 
 // Activity is a kafka activity
 type Activity struct {
-	deviceID int
+	deviceID    int
+	imageWidth  int
+	imageHeight int
 }
 
 // New create a new  activity
@@ -33,7 +35,12 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	deviceID, err := strconv.Atoi(settings.DeviceID)
 	ctx.Logger().Info("deviceID has been set: ", deviceID)
 
-	act := &Activity{deviceID: deviceID}
+	imageWidth := settings.ImageWidth
+	imageHeight := settings.ImageHeigth
+
+	ctx.Logger().Info("Image resolution has been set to %v x %v: ", imageWidth, imageHeight)
+
+	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight}
 	return act, nil
 }
 
@@ -47,8 +54,9 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//settings := &Settings{}
 
 	webcam, err := gocv.OpenVideoCapture(act.deviceID)
-	webcam.Set(gocv.VideoCaptureFrameHeight, 1280)
-	webcam.Set(gocv.VideoCaptureFrameWidth, 720)
+
+	webcam.Set(gocv.VideoCaptureFrameWidth, float64(act.imageWidth))
+	webcam.Set(gocv.VideoCaptureFrameHeight, float64(act.imageHeight))
 
 	if err != nil {
 		fmt.Printf("Error opening video capture device: %v\n", act.deviceID)

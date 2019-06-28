@@ -5,9 +5,12 @@ import (
 )
 
 type Settings struct {
-	DeviceID string `md:"deviceID, required"` // The webcam deviceId
+	DeviceID    string `md:"deviceID, required"`    // The webcam deviceId
+	ImageWidth  int    `md:"imageWidth, required"`  // The image resolution width
+	ImageHeigth int    `md:"imageHeigth, required"` // The image resolution heigth
 }
 
+/*
 type Input struct {
 	in string `md:"in"`
 }
@@ -27,6 +30,7 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 	}
 	return nil
 }
+*/
 
 type Output struct {
 	Image  []byte `md:"image"`  // Documents the partition that the message was placed on
