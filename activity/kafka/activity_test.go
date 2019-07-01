@@ -1,4 +1,4 @@
-package webcam
+package kafka
 
 import (
 	"testing"
@@ -17,21 +17,16 @@ func TestRegister(t *testing.T) {
 }
 
 func TestPlain(t *testing.T) {
-	settings := &Settings{DeviceID: "0", ImageWidth: 1024, ImageHeigth: 720}
+	settings := &Settings{BrokerUrls: "localhost:9092", Topic: "syslog"}
 
 	iCtx := test.NewActivityInitContext(settings, nil)
 	act, err := New(iCtx)
 	assert.Nil(t, err)
 
 	tc := test.NewActivityContext(act.Metadata())
+	tc.SetInput("message", "Hello")
 
 	done, err := act.Eval(tc)
 	assert.Nil(t, err)
 	assert.True(t, done)
-
-	output := &Output{}
-	err = tc.GetOutputObject(output)
-	t.Log("Image output: ", output.Image)
-	t.Log("Base64String output: ", output.Base64String)
-
 }

@@ -1,9 +1,7 @@
 package webcam
 
 import (
-	"encoding/base64"
 	"fmt"
-	"strconv"
 
 	"github.com/project-flogo/core/activity"
 	"github.com/project-flogo/core/data/metadata"
@@ -14,34 +12,25 @@ func init() {
 	_ = activity.Register(&Activity{}, New)
 }
 
-var activityMd = activity.ToMetadata(&Output{})
+var activityMd = activity.ToMetadata(&Input{}, &Output{})
 
 // Activity is a kafka activity
 type Activity struct {
-	deviceID    int
-	imageWidth  int
-	imageHeight int
+	deviceId int
 }
 
 // New create a new  activity
 func New(ctx activity.InitContext) (activity.Activity, error) {
 	settings := &Settings{}
-	ctx.Logger().Info("Settings done.")
+
+	deviceId := settings.deviceID
 
 	err := metadata.MapToStruct(ctx.Settings(), settings, true)
 	if err != nil {
 		return nil, err
 	}
 
-	deviceID, err := strconv.Atoi(settings.DeviceID)
-	ctx.Logger().Info("deviceID has been set: ", deviceID)
-
-	imageWidth := settings.ImageWidth
-	imageHeight := settings.ImageHeigth
-
-	ctx.Logger().Info("Image resolution has been set to: ", imageWidth, "x", imageHeight)
-
-	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight}
+	act := &Activity{}
 	return act, nil
 }
 
@@ -52,15 +41,14 @@ func (*Activity) Metadata() *activity.Metadata {
 
 // Eval implements the evaluation of the kafka activity
 func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	//settings := &Settings{}
+	input := &Input{}
 
-	webcam, err := gocv.OpenVideoCapture(act.deviceID)
-
-	webcam.Set(gocv.VideoCaptureFrameWidth, float64(act.imageWidth))
-	webcam.Set(gocv.VideoCaptureFrameHeight, float64(act.imageHeight))
+	webcam, err := gocv.OpenVideoCapture(act.deviceId)
+	webcam.Set(gocv.VideoCaptureFrameHeight, 1280)
+	webcam.Set(gocv.VideoCaptureFrameWidth, 720)
 
 	if err != nil {
-		fmt.Printf("Error opening video capture device: %v\n", act.deviceID)
+		fmt.Printf("Error opening video capture device: %v\n", act.deviceId)
 		return
 	}
 	defer webcam.Close()
@@ -68,27 +56,24 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	img := gocv.NewMat()
 	defer img.Close()
 
-	ctx.Logger().Info("Webcam is taking a picture...")
+	ctx.Logger().Info("Webcam capturing image...")
 	if ok := webcam.Read(&img); !ok {
-		fmt.Printf("cannot read device %v\n", act.deviceID)
+		fmt.Printf("cannot read device %v\n", act.deviceId)
 		return
 	}
 	if img.Empty() {
-		fmt.Printf("no image on device %v\n", act.deviceID)
+		fmt.Printf("no image on device %v\n", act.deviceId)
 		return
 	}
 	ctx.Logger().Info("Done. Image captured.")
 
 	imgByte := img.ToBytes()
-	//ctx.Logger().Info(imgByte)
-	//gocv.IMWrite("test.png", img) //just for debug
-
-	base64String := base64.StdEncoding.EncodeToString(imgByte)
+	ctx.Logger().Info(imgByte)
+	gocv.IMWrite("test.png", img)
 
 	output := &Output{}
-	output.Image = imgByte
-	output.Base64String = base64String
-	output.Status = "OK"
+	output.image = imgByte
+	output.status = "OK"
 
 	/*
 		if ctx.Logger().DebugEnabled() {

@@ -32,6 +32,10 @@
       "name": "image",
       "type": "[]byte"
     },
+    {
+      "name": "base64String",
+      "type": "string"
+    },
   	{
       "name": "status",
       "type": "string"

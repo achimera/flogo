@@ -39,6 +39,10 @@ Settings and Outputs:
     {
       "name": "image",
       "type": "[]byte"
+	},
+	{
+      "name": "base64String",
+      "type": "string"
     },
   	{
       "name": "status",
@@ -58,6 +62,7 @@ Settings and Outputs:
 | Name      | Type   | Description    |
 |:----------|:-------|:---------------|        
 | image     | []byte | The captured image is returned as a byte array. No Base64 encoding is done. |
+| base64String | string | The captured image is returned as a Base64 encoded string. |
 | status    | string | The status of the operation. "OK" is returned when the webcam successfully captured an image | 
 
 ## Configuration Example
