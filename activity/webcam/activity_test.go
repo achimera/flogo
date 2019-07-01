@@ -32,5 +32,6 @@ func TestPlain(t *testing.T) {
 	output := &Output{}
 	err = tc.GetOutputObject(output)
 	t.Log("Image output: ", output.Image)
+	t.Log("Base64String output: ", output.Base64String)
 
 }

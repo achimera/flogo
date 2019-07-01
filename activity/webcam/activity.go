@@ -1,6 +1,7 @@
 package webcam
 
 import (
+	"encoding/base64"
 	"fmt"
 	"strconv"
 
@@ -82,8 +83,11 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//ctx.Logger().Info(imgByte)
 	//gocv.IMWrite("test.png", img) //just for debug
 
+	base64String := base64.StdEncoding.EncodeToString(imgByte)
+
 	output := &Output{}
 	output.Image = imgByte
+	output.Base64String = base64String
 	output.Status = "OK"
 
 	/*

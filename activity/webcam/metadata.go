@@ -33,14 +33,16 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 */
 
 type Output struct {
-	Image  []byte `md:"image"`  // Documents the partition that the message was placed on
-	Status string `md:"status"` // Status of the webcam
+	Image        []byte `md:"image"` // Documents the partition that the message was placed on
+	Base64String string `md:"base64String"`
+	Status       string `md:"status"` // Status of the webcam
 }
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"image":  o.Image,
-		"status": o.Status,
+		"image":        o.Image,
+		"base64String": o.Base64String,
+		"status":       o.Status,
 	}
 }
 
@@ -49,6 +51,11 @@ func (o *Output) FromMap(values map[string]interface{}) error {
 	var err error
 
 	o.Image, err = coerce.ToBytes(values["image"])
+	if err != nil {
+		return err
+	}
+
+	o.Base64String, err = coerce.ToString(values["base64String"])
 	if err != nil {
 		return err
 	}
