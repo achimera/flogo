@@ -83,7 +83,11 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//ctx.Logger().Info(imgByte)
 	//gocv.IMWrite("test.png", img) //just for debug
 
-	base64String := base64.StdEncoding.EncodeToString(imgByte)
+	buff, err := gocv.IMEncodeWithParams(gocv.PNGFileExt, img, []int{gocv.IMWritePngCompression, 10})
+
+	//gocv.IMEncodeWithParams(gocv.JPEGFileExt, img, []int{gocv.IMWriteJpegQuality, quality})
+
+	base64String := base64.StdEncoding.EncodeToString(buff)
 
 	output := &Output{}
 	output.Image = imgByte
