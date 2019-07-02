@@ -3,7 +3,7 @@ This activity provides your flogo application the ability to take pictures with 
 It is mandatory to specify the device Id, the image resolution as width and height and the compression factor. The image
 has a png format.
 
-IMPORTANT
+**IMPORTANT**  
 This activity uses the GoCV package that provides a binding for the OpenCV 4 computer vision library. Based
 on the specific OS, you need to install OpenCV 4 on your system, otherwise the activity will throw an exception.
 
