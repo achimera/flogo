@@ -42,10 +42,15 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 
 	ctx.Logger().Info("Image resolution has been set to: ", imageWidth, "x", imageHeight)
 
-	compression := settings.Compression
-	ctx.Logger().Info("Image compression factor has been set to: ", compression)
+	compression := 3
+	if (settings.Compression < 0) || (settings.Compression > 9) {
+		ctx.Logger().Info("Image compression out of range [0...9] or not set. Using default compression factor of 3")
+	} else {
+		compression := settings.Compression
+		ctx.Logger().Info("Image compression factor has been set to: ", compression)
+	}
 
-	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight}
+	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight, compression: compression}
 	return act, nil
 }
 

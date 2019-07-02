@@ -5,10 +5,10 @@ import (
 )
 
 type Settings struct {
-	DeviceID    string `md:"deviceID, required"`    // The webcam deviceId
-	ImageWidth  int    `md:"imageWidth, required"`  // The image resolution width
-	ImageHeigth int    `md:"imageHeigth, required"` // The image resolution heigth
-	Compression int    `md:"compression, required"` // The image compression factor
+	DeviceID    string `md:"deviceID, required"`                                 // The webcam deviceId
+	ImageWidth  int    `md:"imageWidth, required"`                               // The image resolution width
+	ImageHeigth int    `md:"imageHeigth, required"`                              // The image resolution heigth
+	Compression int    `md:"compression, allowed(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)"` // The image compression factor
 }
 
 /*
