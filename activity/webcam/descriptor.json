@@ -25,6 +25,12 @@
       "type": "int",
       "required": true,
       "description": "The image resolution height setting (must be supported by the webcam)"
+    },
+    {
+      "name": "compression",
+      "type": "int",
+      "required": true,
+      "description": "The image compression factor of the png format"
     }
   ],
   "output": [

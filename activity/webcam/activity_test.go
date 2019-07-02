@@ -17,7 +17,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestPlain(t *testing.T) {
-	settings := &Settings{DeviceID: "0", ImageWidth: 1024, ImageHeigth: 720}
+	settings := &Settings{DeviceID: "0", ImageWidth: 1024, ImageHeigth: 720, Compression: 10}
 
 	iCtx := test.NewActivityInitContext(settings, nil)
 	act, err := New(iCtx)
@@ -31,7 +31,20 @@ func TestPlain(t *testing.T) {
 
 	output := &Output{}
 	err = tc.GetOutputObject(output)
-	t.Log("Image output: ", output.Image)
+	t.Log("Image byte array output: ", output.Image)
 	t.Log("Base64String output: ", output.Base64String)
+
+	/*
+		file, err := os.Create("base64string.txt")
+		if err != nil {
+			t.Log("Error creating file", err)
+		}
+		defer file.Close()
+
+		_, err = io.WriteString(file, output.Base64String)
+		if err != nil {
+			t.Log("Error writing to file", err)
+		}
+	*/
 
 }

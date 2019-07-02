@@ -21,6 +21,7 @@ type Activity struct {
 	deviceID    int
 	imageWidth  int
 	imageHeight int
+	compression int
 }
 
 // New create a new  activity
@@ -40,6 +41,9 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	imageHeight := settings.ImageHeigth
 
 	ctx.Logger().Info("Image resolution has been set to: ", imageWidth, "x", imageHeight)
+
+	compression := settings.Compression
+	ctx.Logger().Info("Image compression factor has been set to: ", compression)
 
 	act := &Activity{deviceID: deviceID, imageWidth: imageWidth, imageHeight: imageHeight}
 	return act, nil
@@ -79,18 +83,18 @@ func (act *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	ctx.Logger().Info("Done. Image captured.")
 
-	imgByte := img.ToBytes()
+	//imgByte := img.ToBytes()
 	//ctx.Logger().Info(imgByte)
 	//gocv.IMWrite("test.png", img) //just for debug
 
-	buff, err := gocv.IMEncodeWithParams(gocv.PNGFileExt, img, []int{gocv.IMWritePngCompression, 10})
+	imageBuffer, err := gocv.IMEncodeWithParams(gocv.PNGFileExt, img, []int{gocv.IMWritePngCompression, act.compression})
 
 	//gocv.IMEncodeWithParams(gocv.JPEGFileExt, img, []int{gocv.IMWriteJpegQuality, quality})
 
-	base64String := base64.StdEncoding.EncodeToString(buff)
+	base64String := base64.StdEncoding.EncodeToString(imageBuffer)
 
 	output := &Output{}
-	output.Image = imgByte
+	output.Image = imageBuffer
 	output.Base64String = base64String
 	output.Status = "OK"
 

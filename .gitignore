@@ -1,0 +1,15 @@
+activity/webcam_old/activity.1.go
+activity/kafka/README.md
+activity/kafka/activity.go
+activity/kafka/activity_test.go
+activity/kafka/connection.go
+activity/kafka/descriptor.json
+activity/kafka/go.mod
+activity/kafka/go.sum
+activity/kafka/metadata.go
+activity/webcam_old/README.md
+activity/webcam_old/activity.go
+activity/webcam_old/activity.json
+activity/webcam_old/activity_test.go
+activity/webcam_old/descriptor.json
+activity/webcam_old/test.png
