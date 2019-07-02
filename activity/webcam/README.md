@@ -76,19 +76,19 @@ Settings and Outputs:
 ## Configuration Example
 
 ```json
-          {
-            "id": "webcam",
-            "name": "Take a picture from a Webcam",
-            "description": "Webcam Activity",
-            "activity": {
-                "ref": "github.com/achimera/flogo/activity/webcam",
-                "settings": {
-			        "deviceID": "0",
+		{
+			"id": "webcam",
+			"name": "Take a picture from a Webcam",
+			"description": "Webcam Activity",
+			"activity": {
+				"ref": "github.com/achimera/flogo/activity/webcam",
+				"settings": {
+					"deviceID": "0",
 					"imageWidth": "1024",
 					"imageHeigth": "720",
 					"compression": "10"
-              	}
-            }
-          }
+				}
+			}
+		}
 ```
 
