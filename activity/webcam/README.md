@@ -64,7 +64,8 @@ Settings and Outputs:
 | deviceId     | int  | The device id of the webcam. Usually the device id is 0 for onboard cameras |
 | imageWidth   | int  | The resolution width of the image. Please check the resolutions that your webcam are supporting |
 | imageHeigth  | int  | The resolution height of the image. Please check the resolutions that your webcam are supporting |
-| compression  | int  | The compression factor of the png image. Value 0 is no compression, where 16 is the maximum compression and also the smallest size |
+| compression  | int  | The compression factor of the png image. Value 0 is no compression, where 9 is the maximum compression and also the smallest size. Valid integer values are between 0 and 9. If not set or not in range, then the default compression
+of 3 is applied |
 
 ## Output
 | Name      | Type   | Description    |
